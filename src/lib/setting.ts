@@ -2,7 +2,7 @@
 
 import { db } from '@/lib/db';
 import { settings } from 'db/schema';
-import { asc, desc, eq } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 // Define a type for the setting data based on the schema
@@ -18,7 +18,7 @@ export async function getAllSettings(): Promise<Setting[]> {
     // Fetch settings, ordered by ID or key
     const result = await db.select().from(settings).orderBy(asc(settings.settingKey));
     return result;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error fetching settings:", error);
     return []; // Return empty array on error
   }
@@ -33,7 +33,7 @@ export async function getSettingById(id: number): Promise<Setting | null> {
   try {
     const result = await db.select().from(settings).where(eq(settings.id, id)).limit(1);
     return result[0] || null;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error fetching setting with ID ${id}:`, error);
     return null;
   }
@@ -48,7 +48,7 @@ export async function getSettingByKey(key: string): Promise<Setting | null> {
   try {
     const result = await db.select().from(settings).where(eq(settings.settingKey, key)).limit(1);
     return result[0] || null;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error fetching setting with key ${key}:`, error);
     return null;
   }
@@ -71,7 +71,7 @@ export async function createSetting(newSetting: NewSetting): Promise<Setting | n
     const result = await db.insert(settings).values(newSetting).returning();
     revalidatePath('/dashboard/settings'); // Refresh the settings list page
     return result[0];
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error creating setting:", error);
     // Re-throw to handle in the action/component
     throw error;
@@ -98,7 +98,7 @@ export async function updateSetting(id: number, updatedSetting: Partial<NewSetti
     revalidatePath('/dashboard/settings'); // Refresh the settings list page
     // Optionally, revalidate the specific setting page if you have one: revalidatePath(`/dashboard/settings/${id}`);
     return result[0] || null;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error updating setting with ID ${id}:`, error);
      // Re-throw to handle in the action/component
     throw error;
@@ -115,7 +115,7 @@ export async function deleteSetting(id: number): Promise<boolean> {
     await db.delete(settings).where(eq(settings.id, id));
     revalidatePath('/dashboard/settings'); // Refresh the settings list page
     return true;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error deleting setting with ID ${id}:`, error);
     // Handle foreign key constraints if setting is referenced elsewhere (unlikely for settings)
     // if (error instanceof Error && error.message.includes('FOREIGN KEY constraint failed')) {

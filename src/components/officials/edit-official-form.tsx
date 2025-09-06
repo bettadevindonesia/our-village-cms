@@ -1,4 +1,3 @@
-// src/components/officials/edit-official-form.tsx
 "use client";
 
 import { useState, useTransition } from 'react';
@@ -14,7 +13,6 @@ import { toast } from 'sonner'; // Assuming you have sonner or similar for toast
 import type { Official } from '@/lib/official';
 
 export default function EditOfficialForm({ official }: { official: Official }) {
-  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -26,7 +24,7 @@ export default function EditOfficialForm({ official }: { official: Official }) {
     const description = formData.get('description') as string || null;
     // Handle isActive switch (value is "on" if checked)
     const isActiveRaw = formData.get('is_active');
-    const isActive = isActiveRaw === 'on' ? 1 : 0; // Map to SQLite integer boolean
+    const isActive = isActiveRaw === 'on'; // Use boolean for isActive
 
     // Basic validation
     if (!name.trim() || !position.trim()) {
@@ -40,7 +38,7 @@ export default function EditOfficialForm({ official }: { official: Official }) {
           name,
           position,
           description,
-          isActive, // Use the integer value
+          isActive, // Use boolean value
           // updatedAt is handled by default CURRENT_TIMESTAMP
         };
 
@@ -104,7 +102,6 @@ export default function EditOfficialForm({ official }: { official: Official }) {
         />
         <Label htmlFor="is_active">Active</Label>
       </div>
-      {error && <p className="text-sm text-red-500">{error}</p>}
       <div className="flex items-center justify-end space-x-2 pt-4">
         <Button type="button" variant="outline" asChild>
           <Link href="/dashboard/officials">Cancel</Link>

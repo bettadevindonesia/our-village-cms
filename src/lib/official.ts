@@ -18,7 +18,7 @@ export async function getAllOfficials(): Promise<Official[]> {
     // Fetch officials, ordered by ID descending (newest first) or by name
     const result = await db.select().from(officials).orderBy(asc(officials.name)); // Order by name alphabetically
     return result;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error fetching officials:", error);
     return []; // Return empty array on error
   }
@@ -33,7 +33,7 @@ export async function getOfficialById(id: number): Promise<Official | null> {
   try {
     const result = await db.select().from(officials).where(eq(officials.id, id)).limit(1);
     return result[0] || null;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error fetching official with ID ${id}:`, error);
     return null;
   }
@@ -49,7 +49,7 @@ export async function createOfficial(newOfficial: NewOfficial): Promise<Official
     const result = await db.insert(officials).values(newOfficial).returning();
     revalidatePath('/dashboard/officials'); // Refresh the officials list page
     return result[0];
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error creating official:", error);
     return null;
   }
@@ -67,7 +67,7 @@ export async function updateOfficial(id: number, updatedOfficial: Partial<NewOff
     revalidatePath('/dashboard/officials'); // Refresh the officials list page
     // Optionally, revalidate the specific official page if you have one: revalidatePath(`/dashboard/officials/${id}`);
     return result[0] || null;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error updating official with ID ${id}:`, error);
     return null;
   }
@@ -88,10 +88,10 @@ export async function deleteOfficial(id: number): Promise<boolean> {
     await db.delete(officials).where(eq(officials.id, id));
     revalidatePath('/dashboard/officials'); // Refresh the officials list page
     return true;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(`Error deleting official with ID ${id}:`, error);
     // Handle foreign key constraints if official is referenced elsewhere
-    if (error?.message?.includes('FOREIGN KEY constraint failed')) {
+    if (error instanceof Error && error.message.includes('FOREIGN KEY constraint failed')) {
         console.warn(`Cannot delete official ID ${id}: Referenced by other data.`);
         // You might want to return a specific error message to display in the UI
         // return { error: 'Cannot delete official: They are associated with announcements, events, or certificates.' };

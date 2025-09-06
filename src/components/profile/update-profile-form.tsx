@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
+import { updateProfileAction } from '@/app/actions/profile'; // We'll create this action
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { updateProfileAction } from '@/app/actions/profile'; // We'll create this action
-import { toast } from 'sonner'; // Assuming you use sonner
 import type { CurrentSessionProps } from '@/lib/session';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
+import { toast } from 'sonner'; // Assuming you use sonner
 
 interface UpdateProfileFormProps {
   user: CurrentSessionProps;
@@ -16,13 +16,9 @@ interface UpdateProfileFormProps {
 export function UpdateProfileForm({ user }: UpdateProfileFormProps) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(null);
     const formData = new FormData(e.currentTarget);
     const fullName = formData.get('fullName') as string;
     const email = formData.get('email') as string;
