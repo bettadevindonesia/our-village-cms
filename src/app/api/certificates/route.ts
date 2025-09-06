@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
     }
 
-    if (token !== "YOUR_API_TOKEN") { // Use a secure method to validate the token
+    if (token !== process.env.API_TOKEN) { // Use a secure method to validate the token
       return new NextResponse(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { 'Content-Type': 'application/json' } });
     }
 

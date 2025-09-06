@@ -1,22 +1,22 @@
 "use client";
 
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Textarea } from '@/components/ui/textarea';
+import type { Event } from '@/lib/event';
+import { updateEvent } from '@/lib/event'; // Import update action
+import { cn, slugify } from '@/lib/utils';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
-import { cn, slugify } from '@/lib/utils';
-import { updateEvent } from '@/lib/event'; // Import update action
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState, useTransition } from 'react';
 import { toast } from 'sonner'; // Assuming you have sonner or similar for toasts
-import type { Event } from '@/lib/event';
 
 // Define the type for the event prop (with Date object for eventDate)
 type EditableEvent = Omit<Event, 'eventDate'> & {
@@ -24,7 +24,6 @@ type EditableEvent = Omit<Event, 'eventDate'> & {
 };
 
 export default function EditEventForm({ event }: { event: EditableEvent }) {
-  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const [eventDate, setEventDate] = useState<Date | undefined>(event.eventDate ?? undefined);
@@ -200,7 +199,6 @@ export default function EditEventForm({ event }: { event: EditableEvent }) {
           defaultValue={event.contactInfo ?? ''}
         />
       </div>
-      {error && <p className="text-sm text-red-500">{error}</p>}
       <div className="flex items-center justify-end space-x-2 pt-4">
         <Button type="button" variant="outline" asChild>
           <Link href="/dashboard/events">Cancel</Link>

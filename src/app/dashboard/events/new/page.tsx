@@ -35,7 +35,6 @@ import Link from "next/link";
 import { toast } from "sonner"; // Assuming you have sonner or similar for toasts
 
 export default function NewEventPage() {
-  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const [eventDate, setEventDate] = useState<Date | undefined>(new Date());
@@ -208,7 +207,6 @@ export default function NewEventPage() {
                 placeholder="Contact info (email, phone)"
               />
             </div>
-            {error && <p className="text-sm text-red-500">{error}</p>}
             <div className="flex items-center justify-end space-x-2 pt-4">
               <Button type="button" variant="outline" asChild>
                 <Link href="/dashboard/events">Cancel</Link>

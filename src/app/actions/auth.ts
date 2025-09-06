@@ -1,9 +1,9 @@
-"use server"
+"use server";
 
 import { db } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs"; // Example hashing library
-import { cookies } from 'next/headers'; // For setting session cookie
+import { cookies } from "next/headers"; // For setting session cookie
 import { users, userSessions } from "db/schema";
 import { createSession, generateSessionToken } from "@/lib/session";
 import { redirect } from "next/navigation";
@@ -14,17 +14,22 @@ export async function loginAction(formData: FormData) {
 
   try {
     // 1. Find user by email
-    const userResult = await db.select().from(users).where(eq(users.email, email)).limit(1);
+    const userResult = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
     const user = userResult[0];
 
-    if (!user || !user.passwordHash) { // Assuming passwordHash column exists
-       return { error: "Invalid credentials" };
+    if (!user || !user.passwordHash) {
+      // Assuming passwordHash column exists
+      return { error: "Invalid credentials" };
     }
 
     // 2. Verify password
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
     if (!isPasswordValid) {
-       return { error: "Invalid credentials" };
+      return { error: "Invalid credentials" };
     }
 
     // 3. Create Session (Example using hypothetical helpers)
@@ -32,26 +37,38 @@ export async function loginAction(formData: FormData) {
     const sessionExpiry = Date.now() + 1000 * 60 * 60 * 24 * 7; // 1 week from now, for example
 
     await createSession(db, {
-        userId: user.id,
-        expiresAt: sessionExpiry,
-        id: sessionToken
+      userId: user.id,
+      expiresAt: sessionExpiry,
+      id: sessionToken,
     });
 
     // 4. Set Session Cookie
-    (await cookies()).set('session_token', sessionToken, {
-       httpOnly: true,
-       secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-       maxAge: 60 * 60 * 24 * 7, // Match session expiry
-       path: '/',
-       sameSite: 'lax',
+    (await cookies()).set("session_token", sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      maxAge: 60 * 60 * 24 * 7, // Match session expiry
+      path: "/",
+      sameSite: "lax",
     });
 
     // 5. Redirect on Success
     return { success: true };
-
-  } catch (error) {
-     console.error("Login error:", error);
-     return { error: "An unexpected error occurred. Please try again." };
+  } catch (error: unknown) {
+    // Change 'any' to 'unknown'
+    console.error("Specific error message:", error);
+    // Type guard to safely access error properties
+    let errorMessage = "An unexpected error occurred. Please try again.";
+    if (error instanceof Error) {
+      // Check if it's an Error instance
+      // Now you can safely access 'error.message'
+      errorMessage = error.message;
+      // Example: Handle specific database errors
+      // if (error.message.includes('SQLITE_CONSTRAINT_UNIQUE')) {
+      //   errorMessage = "A user with this email or username already exists.";
+      // }
+    }
+    // Return the specific error message
+    return { error: errorMessage };
   }
 }
 
@@ -67,7 +84,7 @@ export async function signupAction(formData: FormData) {
   }
 
   if (password.length < 6) {
-     return { error: "Password must be at least 6 characters long." };
+    return { error: "Password must be at least 6 characters long." };
   }
 
   try {
@@ -105,9 +122,9 @@ export async function signupAction(formData: FormData) {
         username,
         email,
         passwordHash, // Store the hashed password
-        role: 'admin', // role defaults to 'user'
+        role: "admin", // role defaults to 'user'
         // isActive defaults to true
-        emailVerified: true // emailVerified defaults to false
+        emailVerified: true, // emailVerified defaults to false
         // createdAt and updatedAt are handled by default CURRENT_TIMESTAMP
       })
       .returning({ id: users.id }); // Get the ID of the newly created user
@@ -118,20 +135,22 @@ export async function signupAction(formData: FormData) {
     // This allows the user to be logged in automatically after signing up.
     // Alternatively, you could redirect to login or require email verification first.
     const sessionToken = generateSessionToken();
-    const sessionExpiryInSeconds = Math.floor((Date.now() + 1000 * 60 * 60 * 24 * 7) / 1000); // 1 week
+    const sessionExpiryInSeconds = Math.floor(
+      (Date.now() + 1000 * 60 * 60 * 24 * 7) / 1000
+    ); // 1 week
 
     await createSession(db, {
-       id: sessionToken,
-       userId: newUserId,
-       expiresAt: sessionExpiryInSeconds,
+      id: sessionToken,
+      userId: newUserId,
+      expiresAt: sessionExpiryInSeconds,
     });
 
-    (await cookies()).set('session_token', sessionToken, {
-       httpOnly: true,
-       secure: process.env.NODE_ENV === 'production',
-       maxAge: 60 * 60 * 24 * 7,
-       path: '/',
-       sameSite: 'lax',
+    (await cookies()).set("session_token", sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7,
+      path: "/",
+      sameSite: "lax",
     });
 
     // 5. Return success or redirect
@@ -140,12 +159,22 @@ export async function signupAction(formData: FormData) {
     // Choose one approach. Here, we return success.
     return { success: true };
     // Or redirect immediately: return redirect("/dashboard");
-
-  } catch (error: any) {
-    console.error("Signup error:", error);
-    // Handle specific database errors (e.g., unique constraint violations)
-    // if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') { ... }
-    return { error: "An unexpected error occurred during signup. Please try again." };
+  } catch (error: unknown) {
+    // Change 'any' to 'unknown'
+    console.error("Specific error message:", error);
+    // Type guard to safely access error properties
+    let errorMessage = "An unexpected error occurred. Please try again.";
+    if (error instanceof Error) {
+      // Check if it's an Error instance
+      // Now you can safely access 'error.message'
+      errorMessage = error.message;
+      // Example: Handle specific database errors
+      // if (error.message.includes('SQLITE_CONSTRAINT_UNIQUE')) {
+      //   errorMessage = "A user with this email or username already exists.";
+      // }
+    }
+    // Return the specific error message
+    return { error: errorMessage };
   }
 }
 
@@ -163,9 +192,22 @@ export async function logoutAction() {
     try {
       await db.delete(userSessions).where(eq(userSessions.id, sessionToken));
       // console.log("Session deleted from DB");
-    } catch (dbError) {
-      console.error("Error deleting session from database:", dbError);
-      return;
+    } catch (error: unknown) {
+      // Change 'any' to 'unknown'
+      console.error("Specific error message:", error);
+      // Type guard to safely access error properties
+      let errorMessage = "An unexpected error occurred. Please try again.";
+      if (error instanceof Error) {
+        // Check if it's an Error instance
+        // Now you can safely access 'error.message'
+        errorMessage = error.message;
+        // Example: Handle specific database errors
+        // if (error.message.includes('SQLITE_CONSTRAINT_UNIQUE')) {
+        //   errorMessage = "A user with this email or username already exists.";
+        // }
+      }
+      // Return the specific error message
+      return { error: errorMessage };
     }
   }
 
@@ -179,5 +221,5 @@ export async function logoutAction() {
   });
 
   // Redirect to the login page (or home page '/')
-  return redirect('/');
+  return redirect("/");
 }

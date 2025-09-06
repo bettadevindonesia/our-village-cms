@@ -1,19 +1,18 @@
 "use client";
 
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { createOfficial } from '@/lib/official'; // Import create action
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 import { toast } from 'sonner'; // Assuming you have sonner or similar for toasts
 
 export default function NewOfficialPage() {
-  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -83,7 +82,6 @@ export default function NewOfficialPage() {
               <Switch id="is_active" name="is_active" defaultChecked />
               <Label htmlFor="is_active">Active</Label>
             </div>
-            {error && <p className="text-sm text-red-500">{error}</p>}
             <div className="flex items-center justify-end space-x-2 pt-4">
               <Button type="button" variant="outline" asChild>
                 <Link href="/dashboard/officials">Cancel</Link>
