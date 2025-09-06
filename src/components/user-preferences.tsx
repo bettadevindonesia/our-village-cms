@@ -24,14 +24,11 @@ export function UserDropdown({
             <UserCircle /> {userInfo?.fullName}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="start">
+      <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Profile
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            System Settings
+          <DropdownMenuItem asChild>
+            <a className="cursor-pointer" href="/dashboard/profile">Profile</a>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

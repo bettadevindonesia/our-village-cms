@@ -15,6 +15,7 @@ export interface CurrentSessionProps {
     fullName: string;
     email: string;
     username: string;
+    createdAt?: string;
 }
 
 /**
