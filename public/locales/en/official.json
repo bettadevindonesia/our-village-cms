@@ -1,0 +1,51 @@
+{
+  "title": "Officials",
+  "description": "Manage village officials here.",
+  "addOfficial": "Add Official",
+  "table": {
+    "id": "ID",
+    "name": "Name",
+    "position": "Position",
+    "description": "Description",
+    "isActive": "Active",
+    "actions": "Actions"
+  },
+  "form": {
+    "name": "Name",
+    "namePlaceholder": "Enter official's name",
+    "position": "Position",
+    "positionPlaceholder": "Enter position",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter description (optional)",
+    "isActive": "Active",
+    "save": "Save Official",
+    "updateOfficial": "Update Official",
+    "updating": "Updating...",
+    "cancel": "Cancel",
+    "creating": "Creating...",
+    "createOfficial": "Create Official",
+    "cardTitle": "Create New Official",
+    "cardDescription": "Fill in the details below to add a new official.",
+    "editCardTitle": "Edit Official",
+    "editCardDescription": "Update the details for this official.",
+    "error": {
+      "requiredFields": "Name and position are required.",
+      "failedToCreateOfficial": "Failed to create official. Please try again.",
+      "failedToUpdateOfficial": "Failed to update official.",
+      "failedToDeleteOfficial": "Failed to delete official. They might be associated with other data.",
+      "unexpected": "An unexpected error occurred."
+    },
+    "success": {
+      "officialCreated": "Official created successfully.",
+      "officialUpdated": "Official updated successfully.",
+      "officialDeleted": "Official deleted successfully."
+    },
+    "deleteAlert": {
+      "title": "Are you sure?",
+      "description": "This action cannot be undone. This will permanently delete the official \"{{officialName}}\".",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
+    "officialNotFound": "Official not found."
+  }
+}

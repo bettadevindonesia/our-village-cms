@@ -1,0 +1,10 @@
+{
+    "login": {
+        "title": "Masuk",
+        "subtitle": "Silakan masukkan kredensial Anda.",
+        "email": "Alamat Email",
+        "password": "Kata Sandi",
+        "button": "Masuk",
+        "buttonLoading": "Masuk..."
+    }
+}

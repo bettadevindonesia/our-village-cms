@@ -1,50 +1,75 @@
 "use client";
 
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { Textarea } from '@/components/ui/textarea';
-import type { Announcement } from '@/lib/announcement';
-import { updateAnnouncement } from '@/lib/announcement'; // Import update action
-import { cn, slugify } from '@/lib/utils';
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState, useTransition } from 'react';
-import { toast } from 'sonner'; // Assuming you have sonner or similar for toasts
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import type { Announcement } from "@/lib/announcement";
+import { updateAnnouncement } from "@/lib/announcement";
+import { cn, slugify } from "@/lib/utils";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
-// Define the type for the announcement prop (with Date object for publishedAt)
-type EditableAnnouncement = Omit<Announcement, 'publishedAt'> & {
-  publishedAt?: Date | null; // Make it optional and Date type for the form
+type EditableAnnouncement = Omit<Announcement, "publishedAt"> & {
+  publishedAt?: Date | null;
 };
 
-export default function EditAnnouncementForm({ announcement }: { announcement: EditableAnnouncement }) {
+export default function EditAnnouncementForm({
+  announcement,
+}: {
+  announcement: EditableAnnouncement;
+}) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-  const [publishedAt, setPublishedAt] = useState<Date | undefined>(announcement.publishedAt ?? undefined);
+  const [publishedAt, setPublishedAt] = useState<Date | undefined>(
+    announcement.publishedAt ?? undefined
+  );
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const title = formData.get('title') as string;
-    const content = formData.get('content') as string;
-    const rawCategory = formData.get('category');
-    const category = (rawCategory === null || rawCategory === "") ? null : rawCategory as "general" | "event" | "maintenance" | "official" | "urgent";
-    const rawPriority = formData.get('priority');
-    const priority = (rawPriority === null || rawPriority === "") ? null : rawPriority as "high" | "medium" | "low";
-    const notes = formData.get('notes') as string || null;
-    // Handle publishedAt date
-    const publishedAtStr = publishedAt ? publishedAt.toISOString() : null;
-    // Handle isPublished switch (value is "on" if checked)
-    const isPublishedRaw = formData.get('is_published');
-    const isPublished = isPublishedRaw === 'on'; // Use boolean for compatibility
+    const title = formData.get("title") as string;
+    const content = formData.get("content") as string;
+    const rawCategory = formData.get("category");
+    const category =
+      rawCategory === null || rawCategory === ""
+        ? null
+        : (rawCategory as
+            | "general"
+            | "event"
+            | "maintenance"
+            | "official"
+            | "urgent");
+    const rawPriority = formData.get("priority");
+    const priority =
+      rawPriority === null || rawPriority === ""
+        ? null
+        : (rawPriority as "high" | "medium" | "low");
+    const notes = (formData.get("notes") as string) || null;
 
-    // Basic validation
+    const publishedAtStr = publishedAt ? publishedAt.toISOString() : null;
+
+    const isPublishedRaw = formData.get("is_published");
+    const isPublished = isPublishedRaw === "on";
+
     if (!title.trim() || !content.trim()) {
       toast.error("Title and content are required.");
       return;
@@ -59,15 +84,15 @@ export default function EditAnnouncementForm({ announcement }: { announcement: E
           priority,
           notes,
           publishedAt: publishedAtStr,
-          isPublished, // Now a boolean
-          slug: slugify(title), // Update slug from title
+          isPublished,
+          slug: slugify(title),
         };
 
         const result = await updateAnnouncement(announcement.id, updatedData);
         if (result) {
           toast.success("Announcement updated successfully.");
-          router.push('/dashboard/announcements'); // Redirect on success
-          router.refresh(); // Optional: refresh cache
+          router.push("/dashboard/announcements");
+          router.refresh();
         } else {
           toast.error("Failed to update announcement.");
         }
@@ -80,7 +105,8 @@ export default function EditAnnouncementForm({ announcement }: { announcement: E
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <input type="hidden" name="id" value={announcement.id} /> {/* Hidden ID field */}
+      <input type="hidden" name="id" value={announcement.id} />{" "}
+      {/* Hidden ID field */}
       <div className="space-y-2">
         <Label htmlFor="title">Title *</Label>
         <Input
@@ -105,7 +131,10 @@ export default function EditAnnouncementForm({ announcement }: { announcement: E
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="space-y-2">
           <Label htmlFor="category">Category</Label>
-          <Select name="category" defaultValue={announcement.category ?? undefined}>
+          <Select
+            name="category"
+            defaultValue={announcement.category ?? undefined}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
@@ -120,7 +149,10 @@ export default function EditAnnouncementForm({ announcement }: { announcement: E
         </div>
         <div className="space-y-2">
           <Label htmlFor="priority">Priority</Label>
-          <Select name="priority" defaultValue={announcement.priority ?? undefined}>
+          <Select
+            name="priority"
+            defaultValue={announcement.priority ?? undefined}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Select priority" />
             </SelectTrigger>
@@ -134,7 +166,11 @@ export default function EditAnnouncementForm({ announcement }: { announcement: E
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="published_at">Publish Date</Label>
           {/* Hidden input to send the date string */}
-          <input type="hidden" name="published_at" value={publishedAt?.toISOString() || ''} />
+          <input
+            type="hidden"
+            name="published_at"
+            value={publishedAt?.toISOString() || ""}
+          />
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -145,7 +181,11 @@ export default function EditAnnouncementForm({ announcement }: { announcement: E
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {publishedAt ? format(publishedAt, "PPP") : <span>Pick a date</span>}
+                {publishedAt ? (
+                  format(publishedAt, "PPP")
+                ) : (
+                  <span>Pick a date</span>
+                )}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
@@ -166,7 +206,7 @@ export default function EditAnnouncementForm({ announcement }: { announcement: E
           name="notes"
           placeholder="Additional notes..."
           rows={3}
-          defaultValue={announcement.notes ?? ''}
+          defaultValue={announcement.notes ?? ""}
         />
       </div>
       <div className="flex flex-col md:flex-row md:items-center gap-4 pt-2">
@@ -175,7 +215,7 @@ export default function EditAnnouncementForm({ announcement }: { announcement: E
             id="is_published"
             name="is_published"
             defaultChecked={
-              typeof announcement.isPublished === 'number'
+              typeof announcement.isPublished === "number"
                 ? announcement.isPublished === 1
                 : announcement.isPublished === true
             }
@@ -188,7 +228,7 @@ export default function EditAnnouncementForm({ announcement }: { announcement: E
           <Link href="/dashboard/announcements">Cancel</Link>
         </Button>
         <Button type="submit" disabled={isPending}>
-          {isPending ? 'Updating...' : 'Update Announcement'}
+          {isPending ? "Updating..." : "Update Announcement"}
         </Button>
       </div>
     </form>

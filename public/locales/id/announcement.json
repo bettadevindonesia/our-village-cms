@@ -1,0 +1,69 @@
+{
+  "title": "Pengumuman",
+  "description": "Kelola pengumuman yang ditampilkan di beranda",
+  "button": {
+    "add": "Tambah Pengumuman"
+  },
+  "table": {
+    "header": {
+      "title": "Judul",
+      "category": "Kategori",
+      "priority": "Prioritas",
+      "published": "Diterbitkan",
+      "publishedAt": "Diterbitkan Pada",
+      "actions": "Tindakan"
+    },
+    "noData": "Tidak ada pengumuman yang ditemukan."
+  },
+  "form": {
+    "createTitle": "Buat Pengumuman",
+    "editTitle": "Sunting Pengumuman",
+    "createDescription": "Buat pengumuman baru untuk ditampilkan di beranda.",
+    "editDescription": "Sunting detail pengumuman di bawah ini.",
+    "title": "Judul",
+    "titlePlaceholder": "Judul pengumuman",
+    "content": "Konten",
+    "contentPlaceholder": "Konten pengumuman dalam markdown",
+    "category": "Kategori",
+    "categoryPlaceholder": "Pilih kategori",
+    "priority": "Prioritas",
+    "priorityPlaceholder": "Pilih prioritas",
+    "published": "Diterbitkan",
+    "publishedHelper": "Jika tidak diterbitkan, pengumuman akan disimpan sebagai draf.",
+    "publishedAt": "Diterbitkan Pada",
+    "publishedAtHelper": "Tanggal dan waktu ketika pengumuman harus diterbitkan.",
+    "notes": "Catatan",
+    "notesPlaceholder": "Catatan tambahan (opsional)"
+  },
+  "categoryOption": {
+    "general": "Umum",
+    "event": "Acara",
+    "maintenance": "Pemeliharaan",
+    "official": "Resmi",
+    "urgent": "Mendesak"
+  },
+  "priorityOption": {
+    "low": "Rendah",
+    "medium": "Sedang",
+    "high": "Tinggi",
+    "urgent": "Mendesak"
+  },
+  "cancel": "Batal",
+  "createAnnouncement": "Buat Pengumuman",
+  "editAnnouncement": "Simpan Perubahan",
+  "creating": "Membuat...",
+  "updating": "Menyimpan...",
+  "errorRequired": "Judul dan konten wajib diisi.",
+  "errorCreate": "Gagal membuat pengumuman.",
+  "successCreate": "Pengumuman berhasil dibuat.",
+  "errorUnexpected": "Terjadi kesalahan tak terduga.",
+  "errorDelete": "Gagal menghapus pengumuman.",
+  "successDelete": "Pengumuman berhasil dihapus.",
+  "yes": "Ya",
+  "no": "Tidak",
+  "edit": "Sunting",
+  "delete": "Hapus",
+  "deleting": "Menghapus...",
+  "confirmDeleteTitle": "Apakah Anda yakin?",
+  "confirmDelete": "Tindakan ini tidak dapat dibatalkan. Ini akan menghapus pengumuman \"{{title}}\" secara permanen."
+}

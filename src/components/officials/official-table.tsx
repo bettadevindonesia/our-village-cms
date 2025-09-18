@@ -8,7 +8,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,45 +20,44 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteOfficial } from "@/lib/official"; // Import delete action
+import { deleteOfficial } from "@/lib/official";
 import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { toast } from "sonner"; // Assuming you have sonner or similar for toasts
+import { toast } from "sonner";
 
-// Import the Official type
 import type { Official } from "@/lib/official";
+import { useTranslation } from "react-i18next";
 
-interface OfficialTableProps {
+export interface OfficialTableProps {
   officials: Official[];
 }
 
 export function OfficialTable({ officials }: OfficialTableProps) {
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const { t } = useTranslation("official");
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: number, name: string) => {
     setDeletingId(id);
     try {
       const success = await deleteOfficial(id);
       if (success) {
-        toast.success("Official deleted successfully.");
-        // The page will revalidate due to revalidatePath in the action
+        toast.success(t("form.success.officialDeleted"));
       } else {
-        // Check if it was a FK constraint error handled in the action
-        toast.error("Failed to delete official. They might be associated with other data.");
+        toast.error(t("form.error.failedToDeleteOfficial"));
       }
     } catch (err) {
       console.error("Unexpected error deleting official:", err);
-      toast.error("An unexpected error occurred.");
+      toast.error(t("form.error.unexpected"));
     } finally {
       setDeletingId(null);
     }
   };
 
-  // Helper function to get badge variant based on active status
   const getActiveVariant = (isActive: number | boolean | null | undefined) => {
-    const isActiveBool = typeof isActive === 'number' ? isActive === 1 : isActive === true;
-    return isActiveBool ? 'default' : 'secondary';
+    const isActiveBool =
+      typeof isActive === "number" ? isActive === 1 : isActive === true;
+    return isActiveBool ? "default" : "secondary";
   };
 
   return (
@@ -66,63 +65,64 @@ export function OfficialTable({ officials }: OfficialTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">ID</TableHead>
-            <TableHead>Name</TableHead>
-            <TableHead>Position</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Active</TableHead>
-            <TableHead>Created At</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead className="w-[100px]">{t("table.id")}</TableHead>
+            <TableHead>{t("table.name")}</TableHead>
+            <TableHead>{t("table.position")}</TableHead>
+            <TableHead>{t("table.description")}</TableHead>
+            <TableHead>{t("table.isActive")}</TableHead>
+            <TableHead className="text-right">{t("table.actions")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {officials.map((official) => (
             <TableRow key={official.id}>
               <TableCell className="font-medium">{official.id}</TableCell>
-              <TableCell className="font-medium">{official.name}</TableCell>
+              <TableCell className="font-medium max-w-md truncate">
+                {official.name}
+              </TableCell>
               <TableCell>{official.position}</TableCell>
-              <TableCell className="max-w-xs truncate">{official.description || '-'}</TableCell>
+              <TableCell>{official.description}</TableCell>
               <TableCell>
                 <Badge variant={getActiveVariant(official.isActive)}>
-                  {typeof official.isActive === 'number'
-                    ? official.isActive === 1 ? 'Yes' : 'No'
-                    : official.isActive ? 'Yes' : 'No'}
+                  {typeof official.isActive === "number"
+                    ? official.isActive === 1
+                      ? t("yes", "Yes")
+                      : t("no", "No")
+                    : official.isActive
+                    ? t("yes", "Yes")
+                    : t("no", "No")}
                 </Badge>
-              </TableCell>
-              <TableCell>
-                 {official.createdAt ? new Date(official.createdAt).toLocaleDateString() : 'N/A'}
               </TableCell>
               <TableCell className="text-right">
                 <Button asChild variant="ghost" size="icon">
                   <Link href={`/dashboard/officials/${official.id}/edit`}>
                     <Pencil className="h-4 w-4" />
-                    <span className="sr-only">Edit</span>
+                    <span className="sr-only">{t("edit", "Edit")}</span>
                   </Link>
                 </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="ghost" size="icon">
                       <Trash2 className="h-4 w-4" />
-                      <span className="sr-only">Delete</span>
+                      <span className="sr-only">{t("delete", "Delete")}</span>
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                      <AlertDialogTitle>{t("form.deleteAlert.title")}</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the official &quot;{official.name}&quot;.
-                        {/* Optionally, add a warning if they are referenced */}
-                        {/* <br /><strong className="text-destructive">Warning: This official is associated with announcements/events/certificates.</strong> */}
+                        {t("form.deleteAlert.description", { officialName: official.name })}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel>{t("form.deleteAlert.cancel")}</AlertDialogCancel>
                       <Button
                         variant="destructive"
-                        onClick={() => handleDelete(official.id)}
+                        size="sm"
+                        onClick={() => handleDelete(official.id, official.name)}
                         disabled={deletingId === official.id}
                       >
-                        {deletingId === official.id ? 'Deleting...' : 'Delete'}
+                        {deletingId === official.id ? t("deleting", "Deleting...") : t("form.deleteAlert.delete")}
                       </Button>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -132,8 +132,11 @@ export function OfficialTable({ officials }: OfficialTableProps) {
           ))}
           {officials.length === 0 && (
             <TableRow>
-              <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
-                No officials found.
+              <TableCell
+                colSpan={6}
+                className="text-center text-muted-foreground py-8"
+              >
+                {t("form.officialNotFound")}
               </TableCell>
             </TableRow>
           )}

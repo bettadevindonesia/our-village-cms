@@ -8,7 +8,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,53 +20,51 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteAnnouncement } from "@/lib/announcement"; // Import delete action
+import { deleteAnnouncement } from "@/lib/announcement";
 import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { toast } from "sonner"; // Assuming you have sonner or similar for toasts
+import { toast } from "sonner";
 
-// Import the Announcement type
 import type { Announcement } from "@/lib/announcement";
+import { useTranslation } from "react-i18next";
 
-interface AnnouncementTableProps {
+export interface AnnouncementTableProps {
   announcements: Announcement[];
 }
 
 export function AnnouncementTable({ announcements }: AnnouncementTableProps) {
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const { t } = useTranslation("announcement");
 
   const handleDelete = async (id: number) => {
     setDeletingId(id);
     try {
       const success = await deleteAnnouncement(id);
       if (success) {
-        toast.success("Announcement deleted successfully.");
-        // The page will revalidate due to revalidatePath in the action
+        toast.success(t("successDelete"));
       } else {
-        toast.error("Failed to delete announcement.");
+        toast.error(t("errorDelete"));
       }
     } catch (err) {
       console.error("Unexpected error deleting announcement:", err);
-      toast.error("An unexpected error occurred.");
+      toast.error(t("errorUnexpected"));
     } finally {
       setDeletingId(null);
     }
   };
 
-  // Helper function to format date (adjust format as needed)
   const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) return "N/A";
-    return new Date(dateString).toLocaleDateString(); // Or use a library like date-fns for more control
+    return new Date(dateString).toLocaleDateString();
   };
 
-  // Helper function to get badge variant based on priority
   const getPriorityVariant = (priority: string | null | undefined) => {
     switch (priority?.toLowerCase()) {
       case "high":
         return "destructive";
       case "medium":
-        return "default"; // Or 'warning' if you have it
+        return "default";
       case "low":
         return "secondary";
       default:
@@ -74,7 +72,6 @@ export function AnnouncementTable({ announcements }: AnnouncementTableProps) {
     }
   };
 
-  // Helper function to get badge variant based on category
   const getCategoryVariant = (category: string | null | undefined) => {
     switch (category?.toLowerCase()) {
       case "urgent":
@@ -84,13 +81,12 @@ export function AnnouncementTable({ announcements }: AnnouncementTableProps) {
       case "maintenance":
         return "secondary";
       case "official":
-        return "default"; // Or a specific variant
+        return "default";
       default:
         return "outline";
     }
   };
 
-  // Helper function to get badge variant based on published status
   const getPublishedVariant = (
     isPublished: number | boolean | null | undefined
   ) => {
@@ -107,12 +103,12 @@ export function AnnouncementTable({ announcements }: AnnouncementTableProps) {
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">ID</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Priority</TableHead>
-            <TableHead>Published</TableHead>
-            <TableHead>Published At</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead>{t("table.header.title")}</TableHead>
+            <TableHead>{t("table.header.category")}</TableHead>
+            <TableHead>{t("table.header.priority")}</TableHead>
+            <TableHead>{t("table.header.published")}</TableHead>
+            <TableHead>{t("table.header.publishedAt")}</TableHead>
+            <TableHead className="text-right">{t("table.header.actions")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -125,7 +121,7 @@ export function AnnouncementTable({ announcements }: AnnouncementTableProps) {
               <TableCell>
                 {announcement.category ? (
                   <Badge variant={getCategoryVariant(announcement.category)}>
-                    {announcement.category}
+                    {t(`categoryOption.${announcement.category}`)}
                   </Badge>
                 ) : (
                   <span>-</span>
@@ -134,7 +130,7 @@ export function AnnouncementTable({ announcements }: AnnouncementTableProps) {
               <TableCell>
                 {announcement.priority ? (
                   <Badge variant={getPriorityVariant(announcement.priority)}>
-                    {announcement.priority}
+                    {t(`priorityOption.${announcement.priority}`)}
                   </Badge>
                 ) : (
                   <span>-</span>
@@ -144,11 +140,11 @@ export function AnnouncementTable({ announcements }: AnnouncementTableProps) {
                 <Badge variant={getPublishedVariant(announcement.isPublished)}>
                   {typeof announcement.isPublished === "number"
                     ? announcement.isPublished === 1
-                      ? "Yes"
-                      : "No"
+                      ? t("yes")
+                      : t("no")
                     : announcement.isPublished
-                    ? "Yes"
-                    : "No"}
+                    ? t("yes")
+                    : t("no")}
                 </Badge>
               </TableCell>
               <TableCell>{formatDate(announcement.publishedAt)}</TableCell>
@@ -158,7 +154,7 @@ export function AnnouncementTable({ announcements }: AnnouncementTableProps) {
                     href={`/dashboard/announcements/${announcement.id}/edit`}
                   >
                     <Pencil className="h-4 w-4" />
-                    <span className="sr-only">Edit</span>
+                    <span className="sr-only">{t("edit")}</span>
                   </Link>
                 </Button>
                 <AlertDialog>
@@ -171,23 +167,21 @@ export function AnnouncementTable({ announcements }: AnnouncementTableProps) {
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                      <AlertDialogTitle>{t("confirmDeleteTitle", "Are you sure?")}</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete the announcement &quot;{announcement.title}
-                        &quot;.
+                        {t("confirmDelete", { title: announcement.title })}
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
                       <Button
                         onClick={() => handleDelete(announcement.id)}
                         disabled={deletingId === announcement.id}
                         variant="destructive"
                       >
                         {deletingId === announcement.id
-                          ? "Deleting..."
-                          : "Delete"}
+                          ? t("deleting")
+                          : t("delete")}
                       </Button>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -201,7 +195,7 @@ export function AnnouncementTable({ announcements }: AnnouncementTableProps) {
                 colSpan={7}
                 className="text-center text-muted-foreground py-8"
               >
-                No announcements found.
+                {t("table.noData")}
               </TableCell>
             </TableRow>
           )}

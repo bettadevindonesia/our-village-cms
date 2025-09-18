@@ -1,11 +1,10 @@
 "use server";
 
-import { db } from '@/lib/db';
-import { settings } from 'db/schema';
-import { asc, eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { db } from "@/lib/db";
+import { settings } from "db/schema";
+import { asc, eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
-// Define a type for the setting data based on the schema
 export type Setting = typeof settings.$inferSelect;
 export type NewSetting = typeof settings.$inferInsert;
 
@@ -15,12 +14,14 @@ export type NewSetting = typeof settings.$inferInsert;
  */
 export async function getAllSettings(): Promise<Setting[]> {
   try {
-    // Fetch settings, ordered by ID or key
-    const result = await db.select().from(settings).orderBy(asc(settings.settingKey));
+    const result = await db
+      .select()
+      .from(settings)
+      .orderBy(asc(settings.settingKey));
     return result;
   } catch (error: unknown) {
     console.error("Error fetching settings:", error);
-    return []; // Return empty array on error
+    return [];
   }
 }
 
@@ -31,7 +32,11 @@ export async function getAllSettings(): Promise<Setting[]> {
  */
 export async function getSettingById(id: number): Promise<Setting | null> {
   try {
-    const result = await db.select().from(settings).where(eq(settings.id, id)).limit(1);
+    const result = await db
+      .select()
+      .from(settings)
+      .where(eq(settings.id, id))
+      .limit(1);
     return result[0] || null;
   } catch (error: unknown) {
     console.error(`Error fetching setting with ID ${id}:`, error);
@@ -46,7 +51,11 @@ export async function getSettingById(id: number): Promise<Setting | null> {
  */
 export async function getSettingByKey(key: string): Promise<Setting | null> {
   try {
-    const result = await db.select().from(settings).where(eq(settings.settingKey, key)).limit(1);
+    const result = await db
+      .select()
+      .from(settings)
+      .where(eq(settings.settingKey, key))
+      .limit(1);
     return result[0] || null;
   } catch (error: unknown) {
     console.error(`Error fetching setting with key ${key}:`, error);
@@ -54,26 +63,28 @@ export async function getSettingByKey(key: string): Promise<Setting | null> {
   }
 }
 
-
 /**
  * Creates a new setting in the database.
  * @param newSetting The data for the new setting.
  * @returns A promise that resolves to the created setting or null on error.
  */
-export async function createSetting(newSetting: NewSetting): Promise<Setting | null> {
+export async function createSetting(
+  newSetting: NewSetting
+): Promise<Setting | null> {
   try {
-    // Check if a setting with the same key already exists
     const existingSetting = await getSettingByKey(newSetting.settingKey);
     if (existingSetting) {
-        throw new Error(`Setting with key '${newSetting.settingKey}' already exists.`);
+      throw new Error(
+        `Setting with key '${newSetting.settingKey}' already exists.`
+      );
     }
 
     const result = await db.insert(settings).values(newSetting).returning();
-    revalidatePath('/dashboard/settings'); // Refresh the settings list page
+    revalidatePath("/dashboard/settings");
     return result[0];
   } catch (error: unknown) {
     console.error("Error creating setting:", error);
-    // Re-throw to handle in the action/component
+
     throw error;
   }
 }
@@ -84,23 +95,31 @@ export async function createSetting(newSetting: NewSetting): Promise<Setting | n
  * @param updatedSetting The data to update the setting with.
  * @returns A promise that resolves to the updated setting or null on error.
  */
-export async function updateSetting(id: number, updatedSetting: Partial<NewSetting>): Promise<Setting | null> {
+export async function updateSetting(
+  id: number,
+  updatedSetting: Partial<NewSetting>
+): Promise<Setting | null> {
   try {
-    // Check if updating the key and if the new key already exists for another setting
     if (updatedSetting.settingKey) {
-        const existingSetting = await getSettingByKey(updatedSetting.settingKey);
-        if (existingSetting && existingSetting.id !== id) {
-             throw new Error(`Setting with key '${updatedSetting.settingKey}' already exists.`);
-        }
+      const existingSetting = await getSettingByKey(updatedSetting.settingKey);
+      if (existingSetting && existingSetting.id !== id) {
+        throw new Error(
+          `Setting with key '${updatedSetting.settingKey}' already exists.`
+        );
+      }
     }
 
-    const result = await db.update(settings).set(updatedSetting).where(eq(settings.id, id)).returning();
-    revalidatePath('/dashboard/settings'); // Refresh the settings list page
-    // Optionally, revalidate the specific setting page if you have one: revalidatePath(`/dashboard/settings/${id}`);
+    const result = await db
+      .update(settings)
+      .set(updatedSetting)
+      .where(eq(settings.id, id))
+      .returning();
+    revalidatePath("/dashboard/settings");
+
     return result[0] || null;
   } catch (error: unknown) {
     console.error(`Error updating setting with ID ${id}:`, error);
-     // Re-throw to handle in the action/component
+
     throw error;
   }
 }
@@ -113,14 +132,11 @@ export async function updateSetting(id: number, updatedSetting: Partial<NewSetti
 export async function deleteSetting(id: number): Promise<boolean> {
   try {
     await db.delete(settings).where(eq(settings.id, id));
-    revalidatePath('/dashboard/settings'); // Refresh the settings list page
+    revalidatePath("/dashboard/settings");
     return true;
   } catch (error: unknown) {
     console.error(`Error deleting setting with ID ${id}:`, error);
-    // Handle foreign key constraints if setting is referenced elsewhere (unlikely for settings)
-    // if (error instanceof Error && error.message.includes('FOREIGN KEY constraint failed')) {
-    //     // return { error: 'Cannot delete setting: It is associated with other data.' };
-    // }
+
     return false;
   }
 }

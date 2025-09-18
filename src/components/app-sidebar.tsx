@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Calendar, Home, Mail, Medal, Paperclip, Settings } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
-// Menu items.
 const items = [
   {
     title: "Home",
@@ -49,7 +49,9 @@ const items = [
 
 export function AppSidebar() {
   const { open } = useSidebar();
-  const pathname = usePathname(); // Get the current pathname
+  const pathname = usePathname()
+  
+  const { t } = useTranslation('sidebar');
 
   return (
     <Sidebar collapsible="icon">
@@ -69,13 +71,14 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => {
                 const isActive = pathname === item.url;
+                const title = t(`sidebar.${item.title.toLowerCase()}`, { ns: 'sidebar' }) || (t(`sidebar.${item.title.toLowerCase()}`));
 
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild isActive={isActive}>
                       <a href={item.url}>
                         <item.icon />
-                        <span>{item.title}</span>
+                        <span suppressHydrationWarning>{title}</span>
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

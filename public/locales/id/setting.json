@@ -1,0 +1,60 @@
+{
+  "title": "Pengaturan",
+  "description": "Kelola pengaturan aplikasi di sini.",
+  "add": "Tambah Pengaturan",
+  "search": {
+    "placeholder": "Cari pengaturan..."
+  },
+  "pagination": {
+    "prev": "Sebelumnya",
+    "next": "Berikutnya",
+    "page": "Halaman {{page}} dari {{totalPages}}"
+  },
+  "table": {
+    "id": "ID",
+    "key": "Kunci",
+    "value": "Nilai",
+    "description": "Deskripsi",
+    "updatedAt": "Diperbarui Pada",
+    "actions": "Tindakan",
+    "edit": "Ubah",
+    "delete": "Hapus",
+    "null": "kosong",
+    "noDescription": "Tidak ada deskripsi",
+    "empty": "Tidak ada pengaturan ditemukan.",
+    "na": "Tidak tersedia"
+  },
+  "delete": {
+    "title": "Apakah Anda yakin?",
+    "description": "Tindakan ini tidak dapat dibatalkan. Ini akan menghapus pengaturan \"{{key}}\" secara permanen.",
+    "cancel": "Batal",
+    "confirm": "Hapus",
+    "deleting": "Menghapus..."
+  },
+  "success": {
+    "deleted": "Pengaturan berhasil dihapus."
+  },
+  "error": {
+    "delete": "Gagal menghapus pengaturan.",
+    "unexpected": "Terjadi kesalahan tak terduga."
+  },
+  "form": {
+    "createTitle": "Buat Pengaturan Baru",
+    "createDescription": "Masukkan detail untuk pengaturan aplikasi baru.",
+    "keyLabel": "Kunci Pengaturan *",
+    "keyPlaceholder": "Kunci pengaturan unik (misal: site_name)",
+    "keyHelp": "Harus unik.",
+    "keyRequired": "Kunci pengaturan wajib diisi.",
+    "valueLabel": "Nilai Pengaturan",
+    "valuePlaceholder": "Nilai untuk pengaturan",
+    "descriptionLabel": "Deskripsi",
+    "descriptionPlaceholder": "Deskripsi singkat tentang pengaturan...",
+    "cancel": "Batal",
+    "createButton": "Buat Pengaturan",
+    "creating": "Membuat...",
+    "updateTitle": "Perbarui Pengaturan",
+    "updateDescription": "Ubah detail untuk pengaturan aplikasi ini.",
+    "updateButton": "Perbarui Pengaturan",
+    "updating": "Memperbarui..."
+  }
+}

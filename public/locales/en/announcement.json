@@ -1,0 +1,69 @@
+{
+  "title": "Announcement",
+  "description": "Manage announcements displayed on the homepage",
+  "button": {
+    "add": "Add Announcement"
+  },
+  "table": {
+    "header": {
+      "title": "Title",
+      "category": "Category",
+      "priority": "Priority",
+      "published": "Published",
+      "publishedAt": "Published At",
+      "actions": "Actions"
+    },
+    "noData": "No announcements found."
+  },
+  "form": {
+    "createTitle": "Create Announcement",
+    "editTitle": "Edit Announcement",
+    "createDescription": "Create a new announcement to be displayed on the homepage.",
+    "editDescription": "Edit the announcement details below.",
+    "title": "Title",
+    "titlePlaceholder": "Announcement title",
+    "content": "Content",
+    "contentPlaceholder": "Announcement content in markdown",
+    "category": "Category",
+    "categoryPlaceholder": "Select category",
+    "priority": "Priority",
+    "priorityPlaceholder": "Select priority",
+    "published": "Published",
+    "publishedHelper": "If not published, the announcement will be saved as a draft.",
+    "publishedAt": "Published At",
+    "publishedAtHelper": "The date and time when the announcement should be published.",
+    "categoryOption": {
+      "general": "General",
+      "event": "Event",
+      "maintenance": "Maintenance",
+      "official": "Official",
+      "urgent": "Urgent"
+    },
+    "priorityOption": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "notes": "Notes",
+    "notesPlaceholder": "Additional notes (optional)",
+    "cancel": "Cancel",
+    "createAnnouncement": "Create Announcement",
+    "editAnnouncement": "Save Changes",
+    "creating": "Creating...",
+    "updating": "Saving...",
+  "errorRequired": "Title and content are required.",
+  "errorCreate": "Failed to create announcement.",
+  "successCreate": "Announcement created successfully.",
+  "errorUnexpected": "An unexpected error occurred.",
+  "errorDelete": "Failed to delete announcement.",
+  "successDelete": "Announcement deleted successfully.",
+  "yes": "Yes",
+  "no": "No",
+  "edit": "Edit",
+  "delete": "Delete",
+  "deleting": "Deleting...",
+  "confirmDeleteTitle": "Are you sure?",
+  "confirmDelete": "This action cannot be undone. This will permanently delete the announcement \"{{title}}\"."
+  }
+}

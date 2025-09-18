@@ -1,0 +1,25 @@
+{
+    "title": "Dashboard",
+    "subtitle": "Welcome back, {name}!",
+    "stats": {
+        "totalEvents": "Total Events",
+        "totalAnnouncements": "Total Announcements",
+        "totalOfficials": "Total Officials",
+        "totalCertificates": "Total Certificates",
+        "totalUsers": "Total Users"
+    },
+    "recentEvents": "Recent Events",
+    "recentEventsDescription": "See the latest events that have been created.",
+    "viewAll": "View All Events",
+    "quickActions": {
+        "title": "Quick Actions",
+        "subtitle": "Jump to management sections",
+        "actions": {
+            "manageEvents": "Manage Events",
+            "manageAnnouncements": "Manage Announcements",
+            "manageOfficials": "Manage Officials",
+            "viewCertificates": "View Certificates",
+            "editSettings": "Edit Settings"
+        }
+    }
+}

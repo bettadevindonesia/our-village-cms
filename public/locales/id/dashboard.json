@@ -1,0 +1,25 @@
+{
+    "title": "Dasbor",
+    "subtitle": "Selamat datang kembali, {name}!",
+    "stats": {
+        "totalEvents": "Total Acara",
+        "totalAnnouncements": "Total Pengumuman",
+        "totalOfficials": "Total Pejabat",
+        "totalCertificates": "Total Surat",
+        "totalUsers": "Total Pengguna"
+    },
+    "recentEvents": "Acara Terbaru",
+    "recentEventsDescription": "Lihat acara terbaru yang telah dibuat.",
+    "viewAll": "Lihat Semua Acara",
+    "quickActions": {
+        "title": "Tindakan Cepat",
+        "subtitle": "Lompat ke bagian manajemen",
+        "actions": {
+            "manageEvents": "Kelola Acara",
+            "manageAnnouncements": "Kelola Pengumuman",
+            "manageOfficials": "Kelola Pejabat",
+            "viewCertificates": "Lihat Surat",
+            "editSettings": "Edit Pengaturan"
+        }
+    }
+}

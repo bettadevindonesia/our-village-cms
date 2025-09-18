@@ -1,11 +1,10 @@
 "use server";
 
-import { db } from '@/lib/db';
-import { officials } from 'db/schema';
-import { asc, eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
+import { db } from "@/lib/db";
+import { officials } from "db/schema";
+import { asc, eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 
-// Define a type for the official data based on the schema
 export type Official = typeof officials.$inferSelect;
 export type NewOfficial = typeof officials.$inferInsert;
 
@@ -15,12 +14,14 @@ export type NewOfficial = typeof officials.$inferInsert;
  */
 export async function getAllOfficials(): Promise<Official[]> {
   try {
-    // Fetch officials, ordered by ID descending (newest first) or by name
-    const result = await db.select().from(officials).orderBy(asc(officials.name)); // Order by name alphabetically
+    const result = await db
+      .select()
+      .from(officials)
+      .orderBy(asc(officials.name));
     return result;
   } catch (error: unknown) {
     console.error("Error fetching officials:", error);
-    return []; // Return empty array on error
+    return [];
   }
 }
 
@@ -31,7 +32,11 @@ export async function getAllOfficials(): Promise<Official[]> {
  */
 export async function getOfficialById(id: number): Promise<Official | null> {
   try {
-    const result = await db.select().from(officials).where(eq(officials.id, id)).limit(1);
+    const result = await db
+      .select()
+      .from(officials)
+      .where(eq(officials.id, id))
+      .limit(1);
     return result[0] || null;
   } catch (error: unknown) {
     console.error(`Error fetching official with ID ${id}:`, error);
@@ -44,10 +49,12 @@ export async function getOfficialById(id: number): Promise<Official | null> {
  * @param newOfficial The data for the new official.
  * @returns A promise that resolves to the created official or null on error.
  */
-export async function createOfficial(newOfficial: NewOfficial): Promise<Official | null> {
+export async function createOfficial(
+  newOfficial: NewOfficial
+): Promise<Official | null> {
   try {
     const result = await db.insert(officials).values(newOfficial).returning();
-    revalidatePath('/dashboard/officials'); // Refresh the officials list page
+    revalidatePath("/dashboard/officials");
     return result[0];
   } catch (error: unknown) {
     console.error("Error creating official:", error);
@@ -61,11 +68,18 @@ export async function createOfficial(newOfficial: NewOfficial): Promise<Official
  * @param updatedOfficial The data to update the official with.
  * @returns A promise that resolves to the updated official or null on error.
  */
-export async function updateOfficial(id: number, updatedOfficial: Partial<NewOfficial>): Promise<Official | null> {
+export async function updateOfficial(
+  id: number,
+  updatedOfficial: Partial<NewOfficial>
+): Promise<Official | null> {
   try {
-    const result = await db.update(officials).set(updatedOfficial).where(eq(officials.id, id)).returning();
-    revalidatePath('/dashboard/officials'); // Refresh the officials list page
-    // Optionally, revalidate the specific official page if you have one: revalidatePath(`/dashboard/officials/${id}`);
+    const result = await db
+      .update(officials)
+      .set(updatedOfficial)
+      .where(eq(officials.id, id))
+      .returning();
+    revalidatePath("/dashboard/officials");
+
     return result[0] || null;
   } catch (error: unknown) {
     console.error(`Error updating official with ID ${id}:`, error);
@@ -80,22 +94,21 @@ export async function updateOfficial(id: number, updatedOfficial: Partial<NewOff
  */
 export async function deleteOfficial(id: number): Promise<boolean> {
   try {
-    // Check if the official is referenced by other tables (announcements, events, certificates)
-    // This requires checking foreign key constraints.
-    // For simplicity, we'll attempt the delete and catch potential FK errors.
-    // A more robust solution would involve checking related records first.
-
     await db.delete(officials).where(eq(officials.id, id));
-    revalidatePath('/dashboard/officials'); // Refresh the officials list page
+    revalidatePath("/dashboard/officials");
     return true;
   } catch (error: unknown) {
     console.error(`Error deleting official with ID ${id}:`, error);
-    // Handle foreign key constraints if official is referenced elsewhere
-    if (error instanceof Error && error.message.includes('FOREIGN KEY constraint failed')) {
-        console.warn(`Cannot delete official ID ${id}: Referenced by other data.`);
-        // You might want to return a specific error message to display in the UI
-        // return { error: 'Cannot delete official: They are associated with announcements, events, or certificates.' };
-        return false;
+
+    if (
+      error instanceof Error &&
+      error.message.includes("FOREIGN KEY constraint failed")
+    ) {
+      console.warn(
+        `Cannot delete official ID ${id}: Referenced by other data.`
+      );
+
+      return false;
     }
     return false;
   }

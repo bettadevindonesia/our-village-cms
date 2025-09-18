@@ -1,0 +1,72 @@
+{
+    "title": "Event",
+    "description": "Create, manage, and track events seamlessly with our comprehensive event management system.",
+    "addEvent": "Add Event",
+    "table": {
+        "id": "ID",
+        "title": "Title",
+        "category": "Category",
+        "date": "Date",
+        "location": "Location",
+        "time": "Time",
+        "published": "Published",
+        "actions": "Actions"
+    },
+    "form": {
+        "title": "Event Title",
+        "titlePlaceholder": "Enter event title",
+        "cardEditTitle": "Edit Event Title",
+        "cardEditDescription": "Update the details for this event.",
+        "additionalInfo": "Additional Information",
+        "additionalInfoPlaceholder": "Enter additional information",
+        "category": "Category",
+        "categoryPlaceholder": "Select a category",
+        "date": "Event Date",
+        "datePlaceholder": "Select a date",
+        "location": "Location",
+        "locationPlaceholder": "Enter event location",
+        "time": "Event Time",
+        "timePlaceholder": "Enter event time",
+        "description": "Description",
+        "descriptionPlaceholder": "Enter event description",
+        "published": "Published",
+        "publishedPlaceholder": "Select publication status",
+        "contact": "Contact Information",
+        "contactPlaceholder": "Contact info (email, phone)",
+        "save": "Save Event",
+        "updateEvent": "Update Event",
+        "updating": "Updating...",
+        "cancel": "Cancel",
+        "publishImmediately": "Publish Immediately",
+        "pickDate": "Pick a date",
+        "creating": "Creating...",
+        "createEvent": "Create Event",
+        "cardTitle": "Create New Event",
+        "cardDescription": "Fill in the details below to create a new event.",
+        "error": {
+            "requiredFields": "Title, location, and event date are required.",
+            "failedToCreateEvent": "Failed to create event. Please try again.",
+            "failedToUpdateEvent": "Failed to update event.",
+            "failedToDeleteEvent": "Failed to delete event.",
+            "unexpected": "An unexpected error occurred."
+        },
+        "success": {
+            "eventCreated": "Event created successfully.",
+            "eventUpdated": "Event updated successfully.",
+            "eventDeleted": "Event deleted successfully."
+        },
+        "categoryCommunity": "Community",
+        "categoryCulture": "Culture",
+        "categorySports": "Sports",
+        "categoryGovernment": "Government",
+        "categoryOther": "Other",
+        "deleteAlert": {
+            "title": "Are you sure?",
+            "description": "This action cannot be undone. This will permanently delete the event \"{{eventTitle}}\".",
+            "cancel": "Cancel",
+            "delete": "Delete",
+            "confirm": "Delete"
+        },
+        "eventNotFound": "Event not found."
+    }
+}

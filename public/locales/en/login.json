@@ -1,0 +1,10 @@
+{
+    "login": {
+        "title": "Login",
+        "subtitle": "Welcome back! Please enter your credentials.",
+        "email": "Email Address",
+        "password": "Password",
+        "button": "Login",
+        "buttonLoading": "Logging in..."
+    }
+}

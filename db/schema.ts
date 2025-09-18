@@ -1,15 +1,21 @@
 import { sql } from "drizzle-orm";
-import { sqliteTable, text, integer, numeric, primaryKey } from "drizzle-orm/sqlite-core";
+import {
+  sqliteTable,
+  text,
+  integer,
+  numeric,
+  primaryKey,
+} from "drizzle-orm/sqlite-core";
 
 export const announcements = sqliteTable("announcements", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   title: text("title").notNull(),
   content: text("content").notNull(),
-  category: text("category", { 
-    enum: ['general', 'event', 'maintenance', 'official', 'urgent'] 
+  category: text("category", {
+    enum: ["general", "event", "maintenance", "official", "urgent"],
   }),
-  priority: text("priority", { 
-    enum: ['high', 'medium', 'low'] 
+  priority: text("priority", {
+    enum: ["high", "medium", "low"],
   }),
   notes: text("notes"),
   publishedAt: text("published_at").default(sql`(CURRENT_TIMESTAMP)`),
@@ -17,14 +23,18 @@ export const announcements = sqliteTable("announcements", {
   isPublished: integer("is_published", { mode: "boolean" }).default(true),
   createdBy: integer("created_by").references(() => officials.id),
   slug: text("slug"),
-  additionalInfo: text("additional_info")
+  additionalInfo: text("additional_info"),
 });
 
 export const certificates = sqliteTable("certificates", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   documentNumber: text("document_number").notNull(),
-  certificateType: text("certificate_type", { 
-    enum: ['surat_keterangan_usaha', 'surat_keterangan_tidak_mampu', 'surat_keterangan_pengantar'] 
+  certificateType: text("certificate_type", {
+    enum: [
+      "surat_keterangan_usaha",
+      "surat_keterangan_tidak_mampu",
+      "surat_keterangan_pengantar",
+    ],
   }),
   applicantName: text("applicant_name").notNull(),
   placeOfBirth: text("place_of_birth").notNull(),
@@ -46,21 +56,27 @@ export const certificates = sqliteTable("certificates", {
   validFromDate: text("valid_from_date"),
   remarks: text("remarks"),
   createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`)
+  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-export const documentSequences = sqliteTable("document_sequences", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  certificateType: text("certificate_type").notNull(),
-  year: integer("year").notNull(),
-  currentNumber: integer("current_number").default(0),
-  prefixCode: text("prefix_code").notNull(),
-  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`)
-}, (table) => {
-  return {
-    certificateTypeYearUnique: primaryKey({ columns: [table.certificateType, table.year] })
-  };
-});
+export const documentSequences = sqliteTable(
+  "document_sequences",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    certificateType: text("certificate_type").notNull(),
+    year: integer("year").notNull(),
+    currentNumber: integer("current_number").default(0),
+    prefixCode: text("prefix_code").notNull(),
+    updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
+  },
+  (table) => {
+    return {
+      certificateTypeYearUnique: primaryKey({
+        columns: [table.certificateType, table.year],
+      }),
+    };
+  }
+);
 
 export const events = sqliteTable("events", {
   id: integer("id").primaryKey({ autoIncrement: true }),
@@ -75,7 +91,7 @@ export const events = sqliteTable("events", {
   isPublished: integer("is_published", { mode: "boolean" }).default(true),
   createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
   createdBy: integer("created_by").references(() => officials.id),
-  slug: text("slug")
+  slug: text("slug"),
 });
 
 export const officials = sqliteTable("officials", {
@@ -84,7 +100,7 @@ export const officials = sqliteTable("officials", {
   position: text("position").notNull(),
   description: text("description"),
   isActive: integer("is_active", { mode: "boolean" }).default(true),
-  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`)
+  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 export const settings = sqliteTable("settings", {
@@ -92,24 +108,23 @@ export const settings = sqliteTable("settings", {
   settingKey: text("setting_key").notNull().unique(),
   settingValue: text("setting_value"),
   description: text("description"),
-  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`)
+  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-// User Authentication and Authorization Tables
 export const users = sqliteTable("users", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   username: text("username").notNull().unique(),
   email: text("email").notNull().unique(),
   passwordHash: text("password_hash").notNull(),
   fullName: text("full_name").notNull(),
-  role: text("role", { 
-    enum: ['admin', 'official', 'staff', 'user'] 
-  }).default('user'),
+  role: text("role", {
+    enum: ["admin", "official", "staff", "user"],
+  }).default("user"),
   isActive: integer("is_active", { mode: "boolean" }).default(true),
   emailVerified: integer("email_verified", { mode: "boolean" }).default(false),
   lastLogin: text("last_login"),
   createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`)
+  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 export const roles = sqliteTable("roles", {
@@ -117,7 +132,7 @@ export const roles = sqliteTable("roles", {
   name: text("name").notNull().unique(),
   description: text("description"),
   createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`)
+  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 export const permissions = sqliteTable("permissions", {
@@ -125,39 +140,56 @@ export const permissions = sqliteTable("permissions", {
   name: text("name").notNull().unique(),
   description: text("description"),
   createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`)
+  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-export const rolePermissions = sqliteTable("role_permissions", {
-  roleId: integer("role_id").notNull().references(() => roles.id),
-  permissionId: integer("permission_id").notNull().references(() => permissions.id)
-}, (table) => {
-  return {
-    pk: primaryKey({ columns: [table.roleId, table.permissionId] })
-  };
-});
+export const rolePermissions = sqliteTable(
+  "role_permissions",
+  {
+    roleId: integer("role_id")
+      .notNull()
+      .references(() => roles.id),
+    permissionId: integer("permission_id")
+      .notNull()
+      .references(() => permissions.id),
+  },
+  (table) => {
+    return {
+      pk: primaryKey({ columns: [table.roleId, table.permissionId] }),
+    };
+  }
+);
 
 export const userSessions = sqliteTable("user_sessions", {
   id: text("id").notNull().primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
-  expiresAt: integer("expires_at").notNull(), // Unix timestamp
-  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`)
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id),
+  expiresAt: integer("expires_at").notNull(),
+  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
 export const passwordResetTokens = sqliteTable("password_reset_tokens", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  userId: integer("user_id").notNull().references(() => users.id),
+  userId: integer("user_id")
+    .notNull()
+    .references(() => users.id),
   token: text("token").notNull().unique(),
-  expiresAt: integer("expires_at").notNull(), // Unix timestamp
+  expiresAt: integer("expires_at").notNull(),
   used: integer("used", { mode: "boolean" }).default(false),
-  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`)
+  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
 });
 
-export const emailVerificationTokens = sqliteTable("email_verification_tokens", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  userId: integer("user_id").notNull().references(() => users.id),
-  token: text("token").notNull().unique(),
-  expiresAt: integer("expires_at").notNull(), // Unix timestamp
-  used: integer("used", { mode: "boolean" }).default(false),
-  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`)
-});
+export const emailVerificationTokens = sqliteTable(
+  "email_verification_tokens",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id),
+    token: text("token").notNull().unique(),
+    expiresAt: integer("expires_at").notNull(),
+    used: integer("used", { mode: "boolean" }).default(false),
+    createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
+  }
+);

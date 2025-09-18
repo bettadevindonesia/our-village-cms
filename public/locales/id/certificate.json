@@ -1,0 +1,61 @@
+{
+  "title": "Surat Keterangan",
+  "description": "Kelola surat keterangan yang telah dibuat.",
+  "table": {
+    "id": "ID",
+    "documentNumber": "No. Dokumen",
+    "type": "Jenis",
+    "applicant": "Pemohon",
+    "created": "Dibuat",
+    "actions": "Tindakan"
+  },
+  "form": {
+    "deleteAlert": {
+      "title": "Apakah Anda yakin?",
+      "description": "Tindakan ini tidak dapat dibatalkan. Ini akan menghapus surat keterangan \"{{documentNumber}}\" untuk {{applicantName}} secara permanen.",
+      "cancel": "Batal",
+      "delete": "Hapus"
+    },
+    "certificateNotFound": "Tidak ada surat keterangan ditemukan."
+  },
+  "success": {
+    "deleted": "Surat keterangan berhasil dihapus."
+  },
+  "error": {
+    "delete": "Gagal menghapus surat keterangan.",
+    "unexpected": "Terjadi kesalahan tak terduga."
+  },
+  "typeLabel": {
+    "surat_keterangan_usaha": "Surat Ket. Usaha",
+    "surat_keterangan_tidak_mampu": "Surat Ket. Tidak Mampu",
+    "surat_keterangan_pengantar": "Surat Pengantar",
+    "unknown": "Tidak diketahui"
+  },
+  "detail": {
+    "title": "Detail Surat Keterangan",
+    "documentNumber": "No. Dokumen: {{documentNumber}}",
+    "backToList": "Kembali ke Daftar",
+    "applicantName": "Nama Pemohon",
+    "placeOfBirth": "Tempat Lahir",
+    "dateOfBirth": "Tanggal Lahir",
+    "occupation": "Pekerjaan",
+    "address": "Alamat",
+    "rtRwLetterNumber": "No. Surat RT/RW",
+    "rtRwLetterDate": "Tanggal Surat RT/RW",
+    "businessName": "Nama Usaha",
+    "businessType": "Jenis Usaha",
+    "businessAddress": "Alamat Usaha",
+    "businessYears": "Lama Usaha",
+    "gender": "Jenis Kelamin",
+    "religion": "Agama",
+    "purpose": "Tujuan",
+    "nationality": "Kewarganegaraan",
+    "familyCardNumber": "No. Kartu Keluarga",
+    "nik": "NIK",
+    "validFromDate": "Berlaku Dari",
+    "remarks": "Catatan",
+    "createdAt": "Dibuat Pada",
+    "updatedAt": "Diperbarui Pada"
+  },
+  "view": "Lihat"
+}

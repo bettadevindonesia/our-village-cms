@@ -1,21 +1,24 @@
-import { ChangePasswordForm } from '@/components/profile/change-password-form'; // Component for password change
-import { ProfileDetails } from '@/components/profile/profile-details'; // Component to display non-editable details
-import { UpdateProfileForm } from '@/components/profile/update-profile-form'; // Component for the editable form
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { getCurrentUser } from '@/lib/session'; // Import your session utility
-import { redirect } from 'next/navigation';
+import { ChangePasswordForm } from "@/components/profile/change-password-form";
+import { ProfileDetails } from "@/components/profile/profile-details";
+import { UpdateProfileForm } from "@/components/profile/update-profile-form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { getCurrentUser } from "@/lib/session";
+import { redirect } from "next/navigation";
 
 export default async function ProfilePage() {
-  // 1. Fetch the currently authenticated user's data
   const user = await getCurrentUser();
 
-  // 2. Redirect if not authenticated (middleware should handle this, but good practice)
   if (!user) {
-    redirect('/'); // Or /login
+    redirect("/");
   }
 
-  // 3. Render the profile page content
   return (
     <div className="space-y-6">
       <div>
@@ -26,12 +29,9 @@ export default async function ProfilePage() {
       </div>
       <Separator />
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* Left Column: Profile Details Display */}
         <div className="lg:col-span-1">
           <ProfileDetails user={user} />
         </div>
-
-        {/* Right Column: Edit Forms */}
         <div className="lg:col-span-2 space-y-6">
           <Card>
             <CardHeader>
@@ -48,9 +48,7 @@ export default async function ProfilePage() {
           <Card>
             <CardHeader>
               <CardTitle>Change Password</CardTitle>
-              <CardDescription>
-                Update your password.
-              </CardDescription>
+              <CardDescription>Update your password.</CardDescription>
             </CardHeader>
             <CardContent>
               <ChangePasswordForm userId={user.id} />

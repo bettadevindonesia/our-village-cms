@@ -1,0 +1,60 @@
+{
+  "title": "Settings",
+  "description": "Manage application settings here.",
+  "add": "Add Setting",
+  "search": {
+    "placeholder": "Search settings..."
+  },
+  "pagination": {
+    "prev": "Prev",
+    "next": "Next",
+    "page": "Page {{page}} of {{totalPages}}"
+  },
+  "table": {
+    "id": "ID",
+    "key": "Key",
+    "value": "Value",
+    "description": "Description",
+    "updatedAt": "Updated At",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "null": "null",
+    "noDescription": "No description",
+    "empty": "No settings found.",
+    "na": "N/A"
+  },
+  "delete": {
+    "title": "Are you sure?",
+    "description": "This action cannot be undone. This will permanently delete the setting \"{{key}}\".",
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "deleting": "Deleting..."
+  },
+  "success": {
+    "deleted": "Setting deleted successfully."
+  },
+  "error": {
+    "delete": "Failed to delete setting.",
+    "unexpected": "An unexpected error occurred."
+  },
+  "form": {
+    "createTitle": "Create New Setting",
+    "createDescription": "Enter details for the new application setting.",
+    "keyLabel": "Setting Key *",
+    "keyPlaceholder": "Unique setting key (e.g., site_name)",
+    "keyHelp": "Must be unique.",
+    "keyRequired": "Setting key is required.",
+    "valueLabel": "Setting Value",
+    "valuePlaceholder": "Value for the setting",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Brief description of the setting...",
+    "cancel": "Cancel",
+    "createButton": "Create Setting",
+    "creating": "Creating...",
+    "updateTitle": "Update Setting",
+    "updateDescription": "Modify the details for this application setting.",
+    "updateButton": "Update Setting",
+    "updating": "Updating..."
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "sidebar": {
+        "home": "Home",
+        "events": "Events",
+        "announcements": "Announcements",
+        "officials": "Officials",
+        "certificates": "Certificates",
+        "settings": "Settings"
+    }
+}

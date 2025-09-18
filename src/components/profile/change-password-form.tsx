@@ -1,11 +1,11 @@
 "use client";
 
-import { changePasswordAction } from '@/app/actions/profile'; // We'll create this action
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useState, useTransition } from 'react';
-import { toast } from 'sonner';
+import { changePasswordAction } from "@/app/actions/profile";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 interface ChangePasswordFormProps {
   userId: number;
@@ -14,9 +14,9 @@ interface ChangePasswordFormProps {
 export function ChangePasswordForm({ userId }: ChangePasswordFormProps) {
   const [isPending, startTransition] = useTransition();
   const [formData, setFormData] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmNewPassword: '',
+    currentPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,8 +33,8 @@ export function ChangePasswordForm({ userId }: ChangePasswordFormProps) {
     }
 
     if (formData.newPassword.length < 6) {
-       toast.error("New password must be at least 6 characters long.");
-       return;
+      toast.error("New password must be at least 6 characters long.");
+      return;
     }
 
     startTransition(async () => {
@@ -48,8 +48,11 @@ export function ChangePasswordForm({ userId }: ChangePasswordFormProps) {
           toast.error(result.error);
         } else {
           toast.success("Password changed successfully!");
-          // Reset form fields
-          setFormData({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
+          setFormData({
+            currentPassword: "",
+            newPassword: "",
+            confirmNewPassword: "",
+          });
         }
       } catch (err) {
         console.error("Unexpected error changing password:", err);
@@ -95,7 +98,7 @@ export function ChangePasswordForm({ userId }: ChangePasswordFormProps) {
         />
       </div>
       <Button type="submit" disabled={isPending}>
-        {isPending ? 'Changing...' : 'Change Password'}
+        {isPending ? "Changing..." : "Change Password"}
       </Button>
     </form>
   );

@@ -1,0 +1,51 @@
+{
+  "title": "Pejabat",
+  "description": "Kelola pejabat desa di sini.",
+  "addOfficial": "Tambah Pejabat",
+  "table": {
+    "id": "ID",
+    "name": "Nama",
+    "position": "Jabatan",
+    "description": "Deskripsi",
+    "isActive": "Aktif",
+    "actions": "Tindakan"
+  },
+  "form": {
+    "name": "Nama",
+    "namePlaceholder": "Masukkan nama pejabat",
+    "position": "Jabatan",
+    "positionPlaceholder": "Masukkan jabatan",
+    "description": "Deskripsi",
+    "descriptionPlaceholder": "Masukkan deskripsi (opsional)",
+    "isActive": "Aktif",
+    "save": "Simpan Pejabat",
+    "updateOfficial": "Perbarui Pejabat",
+    "updating": "Memperbarui...",
+    "cancel": "Batal",
+    "creating": "Membuat...",
+    "createOfficial": "Buat Pejabat",
+    "cardTitle": "Buat Pejabat Baru",
+    "cardDescription": "Isi detail di bawah untuk menambah pejabat baru.",
+    "editCardTitle": "Sunting Pejabat",
+    "editCardDescription": "Perbarui detail untuk pejabat ini.",
+    "error": {
+      "requiredFields": "Nama dan jabatan wajib diisi.",
+      "failedToCreateOfficial": "Gagal menambahkan pejabat. Silakan coba lagi.",
+      "failedToUpdateOfficial": "Gagal memperbarui pejabat.",
+      "failedToDeleteOfficial": "Gagal menghapus pejabat. Mungkin masih terkait dengan data lain.",
+      "unexpected": "Terjadi kesalahan tak terduga."
+    },
+    "success": {
+      "officialCreated": "Pejabat berhasil ditambahkan.",
+      "officialUpdated": "Pejabat berhasil diperbarui.",
+      "officialDeleted": "Pejabat berhasil dihapus."
+    },
+    "deleteAlert": {
+      "title": "Apakah Anda yakin?",
+      "description": "Tindakan ini tidak dapat dibatalkan. Ini akan menghapus pejabat \"{{officialName}}\" secara permanen.",
+      "cancel": "Batal",
+      "delete": "Hapus"
+    },
+    "officialNotFound": "Pejabat tidak ditemukan."
+  }
+}

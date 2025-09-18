@@ -1,0 +1,62 @@
+{
+  "title": "Certificates",
+  "description": "Manage generated certificates.",
+  "table": {
+    "id": "ID",
+    "documentNumber": "Doc. No.",
+    "type": "Type",
+    "applicant": "Applicant",
+    "created": "Created",
+    "actions": "Actions",
+    "na": "N/A"
+  },
+  "form": {
+    "deleteAlert": {
+      "title": "Are you sure?",
+      "description": "This action cannot be undone. This will permanently delete the certificate \"{{documentNumber}}\" for {{applicantName}}.",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
+    "certificateNotFound": "No certificates found."
+  },
+  "success": {
+    "deleted": "Certificate deleted successfully."
+  },
+  "error": {
+    "delete": "Failed to delete certificate.",
+    "unexpected": "An unexpected error occurred."
+  },
+  "typeLabel": {
+    "surat_keterangan_usaha": "Business Certificate",
+    "surat_keterangan_tidak_mampu": "Poverty Certificate",
+    "surat_keterangan_pengantar": "Reference Letter",
+    "unknown": "Unknown"
+  },
+  "detail": {
+    "title": "Certificate Details",
+    "documentNumber": "Document Number: {{documentNumber}}",
+    "backToList": "Back to List",
+    "applicantName": "Applicant Name",
+    "placeOfBirth": "Place of Birth",
+    "dateOfBirth": "Date of Birth",
+    "occupation": "Occupation",
+    "address": "Address",
+    "rtRwLetterNumber": "RT/RW Letter No.",
+    "rtRwLetterDate": "RT/RW Letter Date",
+    "businessName": "Business Name",
+    "businessType": "Business Type",
+    "businessAddress": "Business Address",
+    "businessYears": "Business Years",
+    "gender": "Gender",
+    "religion": "Religion",
+    "purpose": "Purpose",
+    "nationality": "Nationality",
+    "familyCardNumber": "Family Card No.",
+    "nik": "NIK",
+    "validFromDate": "Valid From",
+    "remarks": "Remarks",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At"
+  },
+  "view": "View"
+}

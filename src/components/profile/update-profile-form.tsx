@@ -1,13 +1,13 @@
 "use client";
 
-import { updateProfileAction } from '@/app/actions/profile'; // We'll create this action
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import type { CurrentSessionProps } from '@/lib/session';
-import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
-import { toast } from 'sonner'; // Assuming you use sonner
+import { updateProfileAction } from "@/app/actions/profile";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import type { CurrentSessionProps } from "@/lib/session";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { toast } from "sonner";
 
 interface UpdateProfileFormProps {
   user: CurrentSessionProps;
@@ -20,9 +20,9 @@ export function UpdateProfileForm({ user }: UpdateProfileFormProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const fullName = formData.get('fullName') as string;
-    const email = formData.get('email') as string;
-    const username = formData.get('username') as string;
+    const fullName = formData.get("fullName") as string;
+    const email = formData.get("email") as string;
+    const username = formData.get("username") as string;
 
     if (!fullName.trim() || !email.trim() || !username.trim()) {
       toast.error("All fields are required.");
@@ -36,8 +36,8 @@ export function UpdateProfileForm({ user }: UpdateProfileFormProps) {
           toast.error(result.error);
         } else {
           toast.success("Profile updated successfully!");
-          // Optionally, refresh the page or update context/state
-          router.refresh(); // This might trigger a refetch of session data if getCurrentUser is called again
+
+          router.refresh();
         }
       } catch (err) {
         console.error("Unexpected error updating profile:", err);
@@ -51,12 +51,22 @@ export function UpdateProfileForm({ user }: UpdateProfileFormProps) {
       <div className="space-y-2">
         <Label htmlFor="username">Username</Label>
         <Input id="username" name="username" value={user.username} disabled />
-        <p className="text-xs text-muted-foreground">Username cannot be changed.</p>
+        <p className="text-xs text-muted-foreground">
+          Username cannot be changed.
+        </p>
       </div>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
-        <Input id="email" name="email" type="email" value={user.email} disabled />
-        <p className="text-xs text-muted-foreground">Email cannot be changed.</p>
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          value={user.email}
+          disabled
+        />
+        <p className="text-xs text-muted-foreground">
+          Email cannot be changed.
+        </p>
       </div>
       <div className="space-y-2">
         <Label htmlFor="fullName">Full Name</Label>
@@ -68,7 +78,7 @@ export function UpdateProfileForm({ user }: UpdateProfileFormProps) {
         />
       </div>
       <Button type="submit" disabled={isPending}>
-        {isPending ? 'Saving...' : 'Save Changes'}
+        {isPending ? "Saving..." : "Save Changes"}
       </Button>
     </form>
   );

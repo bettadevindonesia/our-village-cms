@@ -1,0 +1,10 @@
+{
+    "sidebar": {
+        "home": "Beranda",
+        "events": "Acara",
+        "announcements": "Pengumuman",
+        "officials": "Pejabat",
+        "certificates": "Surat-surat",
+        "settings": "Pengaturan"
+    }
+}

@@ -1,24 +1,23 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { CalendarIcon, Mail, User, Hash } from 'lucide-react';
-import { format } from 'date-fns';
-import { id as idLocale } from 'date-fns/locale'; // Import Indonesian locale
-import type { CurrentSessionProps } from '@/lib/session'; // Adjust import path if needed
-import { Separator } from '../ui/separator';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { CalendarIcon, Mail, User, Hash } from "lucide-react";
+import { format } from "date-fns";
+import { id as idLocale } from "date-fns/locale";
+import type { CurrentSessionProps } from "@/lib/session";
+import { Separator } from "../ui/separator";
 
 interface ProfileDetailsProps {
-  user: CurrentSessionProps; // Use the type returned by getCurrentUser
+  user: CurrentSessionProps;
 }
 
 export function ProfileDetails({ user }: ProfileDetailsProps) {
-  // Get initials for avatar fallback
   const initials = user.fullName
     ? user.fullName
-        .split(' ')
+        .split(" ")
         .map((n) => n[0])
-        .join('')
+        .join("")
         .toUpperCase()
-    : 'U';
+    : "U";
 
   return (
     <Card>
@@ -56,11 +55,10 @@ export function ProfileDetails({ user }: ProfileDetailsProps) {
               <CalendarIcon className="mr-2 h-4 w-4 text-muted-foreground" />
               <span className="font-medium">Member since:</span>
               <span className="ml-2">
-                {format(new Date(user.createdAt), 'PPP', { locale: idLocale })} {/* Use Indonesian format */}
+                {format(new Date(user.createdAt), "PPP", { locale: idLocale })}{" "}
               </span>
             </div>
           )}
-          {/* Add last login if tracked */}
         </div>
       </CardContent>
     </Card>

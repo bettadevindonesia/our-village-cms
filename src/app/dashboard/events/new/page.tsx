@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Card,
   CardContent,
@@ -9,10 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -21,23 +24,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Textarea } from "@/components/ui/textarea";
+import { createEvent } from "@/lib/event";
+import { cn, slugify } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { cn, slugify } from "@/lib/utils";
-import { createEvent } from "@/lib/event"; // Import create action
 import Link from "next/link";
-import { toast } from "sonner"; // Assuming you have sonner or similar for toasts
+import { useRouter } from "next/navigation";
+import { useTranslation } from "node_modules/react-i18next";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 export default function NewEventPage() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const [eventDate, setEventDate] = useState<Date | undefined>(new Date());
+  const { t } = useTranslation("event");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,18 +50,17 @@ export default function NewEventPage() {
     const location = formData.get("location") as string;
     const category = (formData.get("category") as string) || null;
     const contactInfo = (formData.get("contact_info") as string) || null;
-    const eventTime = (formData.get("event_time") as string) || null; // Get time as string
-    // Handle eventDate date
+    const eventTime = (formData.get("event_time") as string) || null;
+
     const eventDateStr = eventDate
       ? eventDate.toISOString().split("T")[0]
-      : null; // Format as YYYY-MM-DD
-    // Handle isPublished switch (value is "on" if checked)
-    const isPublishedRaw = formData.get("is_published");
-    const isPublished = isPublishedRaw === "on"; // Use boolean value
+      : null;
 
-    // Basic validation
+    const isPublishedRaw = formData.get("is_published");
+    const isPublished = isPublishedRaw === "on";
+
     if (!title.trim() || !location.trim() || !eventDateStr) {
-      toast.error("Title, location, and event date are required.");
+      toast.error(t("error.requiredFields"));
       return;
     }
 
@@ -72,23 +73,23 @@ export default function NewEventPage() {
           location,
           category,
           contactInfo,
-          eventTime, // Send time string
-          eventDate: eventDateStr, // Send date string
-          isPublished, // Use boolean value
-          slug: slugify(title), // Generate slug from title
+          eventTime,
+          eventDate: eventDateStr,
+          isPublished,
+          slug: slugify(title),
         };
 
         const result = await createEvent(newEvent);
         if (result) {
-          toast.success("Event created successfully.");
-          router.push("/dashboard/events"); // Redirect on success
-          router.refresh(); // Optional: refresh cache
+          toast.success(t("success.eventCreated"));
+          router.push("/dashboard/events");
+          router.refresh();
         } else {
-          toast.error("Failed to create event.");
+          toast.error(t("error.failedToCreateEvent"));
         }
       } catch (err) {
         console.error("Unexpected error during event creation:", err);
-        toast.error("An unexpected error occurred.");
+        toast.error(t("error.unexpected"));
       }
     });
   };
@@ -97,71 +98,71 @@ export default function NewEventPage() {
     <div className="grid gap-6 w-1/2 mx-auto">
       <Card>
         <CardHeader>
-          <CardTitle>Create New Event</CardTitle>
-          <CardDescription>Enter details for the new event.</CardDescription>
+          <CardTitle>{t("form.cardTitle")}</CardTitle>
+          <CardDescription>{t("form.cardDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="title">Title *</Label>
+              <Label htmlFor="title">{t("form.title")} *</Label>
               <Input
                 id="title"
                 name="title"
-                placeholder="Event Title"
+                placeholder={t("form.titlePlaceholder")}
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description">{t("form.description")}</Label>
               <Textarea
                 id="description"
                 name="description"
-                placeholder="Event description..."
+                placeholder={t("form.descriptionPlaceholder")}
                 rows={4}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="additional_info">Additional Info</Label>
+              <Label htmlFor="additional_info">{t("form.additionalInfo")}</Label>
               <Textarea
                 id="additional_info"
                 name="additional_info"
-                placeholder="Additional information..."
+                placeholder={t("form.additionalInfoPlaceholder")}
                 rows={2}
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="location">Location *</Label>
+                <Label htmlFor="location">{t("form.location")} *</Label>
                 <Input
                   id="location"
                   name="location"
-                  placeholder="Event location"
+                  placeholder={t("form.locationPlaceholder")}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="category">Category</Label>
+                <Label htmlFor="category">{t("form.category")}</Label>
                 <Select name="category">
                   <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
+                    <SelectValue placeholder={t("form.categoryPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="community">Community</SelectItem>
-                    <SelectItem value="cultural">Cultural</SelectItem>
-                    <SelectItem value="sports">Sports</SelectItem>
-                    <SelectItem value="meeting">Meeting</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    <SelectItem value="community">{t("form.categoryCommunity")}</SelectItem>
+                    <SelectItem value="cultural">{t("form.categoryCultural")}</SelectItem>
+                    <SelectItem value="sports">{t("form.categorySports")}</SelectItem>
+                    <SelectItem value="meeting">{t("form.categoryMeeting")}</SelectItem>
+                    <SelectItem value="other">{t("form.categoryOther")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="event_time">Event Time</Label>
+                <Label htmlFor="event_time">{t("form.eventTime")}</Label>
                 <Input id="event_time" name="event_time" type="time" />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="event_date">Event Date *</Label>
+                <Label htmlFor="event_date">{t("form.eventDate")} *</Label>
                 <input
                   type="hidden"
                   name="event_date"
@@ -180,7 +181,7 @@ export default function NewEventPage() {
                       {eventDate ? (
                         format(eventDate, "PPP")
                       ) : (
-                        <span>Pick a date</span>
+                        <span>{t("form.pickDate")}</span>
                       )}
                     </Button>
                   </PopoverTrigger>
@@ -196,23 +197,23 @@ export default function NewEventPage() {
               </div>
               <div className="flex items-center space-x-2 pt-6">
                 <Switch id="is_published" name="is_published" defaultChecked />
-                <Label htmlFor="is_published">Publish Immediately</Label>
+                <Label htmlFor="is_published">{t("form.publishImmediately")}</Label>
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="contact_info">Contact Information</Label>
+              <Label htmlFor="contact_info">{t("form.contact")}</Label>
               <Input
                 id="contact_info"
                 name="contact_info"
-                placeholder="Contact info (email, phone)"
+                placeholder={t("form.contactPlaceholder")}
               />
             </div>
             <div className="flex items-center justify-end space-x-2 pt-4">
               <Button type="button" variant="outline" asChild>
-                <Link href="/dashboard/events">Cancel</Link>
+                <Link href="/dashboard/events">{t("form.cancel")}</Link>
               </Button>
               <Button type="submit" disabled={isPending}>
-                {isPending ? "Creating..." : "Create Event"}
+                {isPending ? t("form.creating") : t("form.createEvent")}
               </Button>
             </div>
           </form>

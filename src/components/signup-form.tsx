@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signupAction } from "@/app/actions/auth"; // We'll create this action next
+import { signupAction } from "@/app/actions/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -29,10 +29,8 @@ export function SignupForm({
       if (res?.error) {
         setError(res.error);
       } else if (res?.success) {
-        // Optionally redirect or show a success message
-        // For now, we'll just show a success message
-         setError(null); // Clear previous errors
-         redirect('/dashboard');
+        setError(null);
+        redirect("/dashboard");
       }
     });
   };
@@ -52,7 +50,7 @@ export function SignupForm({
               <Label htmlFor="full_name">Full Name</Label>
               <Input
                 id="full_name"
-                name="full_name" // Matches the column name in the schema
+                name="full_name"
                 type="text"
                 placeholder="John Doe"
                 required
@@ -85,7 +83,7 @@ export function SignupForm({
                 name="password"
                 type="password"
                 required
-                minLength={6} // Basic validation
+                minLength={6}
               />
             </div>
             {error && <p className="text-sm text-red-500">{error}</p>}

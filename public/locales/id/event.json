@@ -1,0 +1,72 @@
+{
+    "title": "Acara",
+    "description": "Buat, kelola, dan lacak acara dengan mudah menggunakan sistem manajemen acara kami yang komprehensif.",
+    "addEvent": "Tambah Acara",
+    "table": {
+        "id": "ID",
+        "title": "Judul",
+        "category": "Kategori",
+        "date": "Tanggal",
+        "location": "Lokasi",
+        "time": "Waktu",
+        "published": "Dipublikasikan",
+        "actions": "Tindakan"
+    },
+    "form": {
+        "title": "Judul Acara",
+        "titlePlaceholder": "Masukkan judul acara",
+        "cardEditTitle": "Sunting Judul Acara",
+        "cardEditDescription": "Perbarui detail untuk acara ini.",
+        "additionalInfo": "Informasi Tambahan",
+        "additionalInfoPlaceholder": "Masukkan informasi tambahan",
+        "category": "Kategori",
+        "categoryPlaceholder": "Pilih kategori",
+        "eventDate": "Tanggal Acara",
+        "eventDatePlaceholder": "Pilih tanggal",
+        "location": "Lokasi",
+        "locationPlaceholder": "Masukkan lokasi acara",
+        "eventTime": "Waktu Acara",
+        "eventTimePlaceholder": "Masukkan waktu acara",
+        "description": "Deskripsi",
+        "descriptionPlaceholder": "Masukkan deskripsi acara",
+        "published": "Dipublikasikan",
+        "publishedPlaceholder": "Pilih status publikasi",
+        "contact": "Informasi Kontak",
+        "contactPlaceholder": "Info kontak (email, telepon)",
+        "save": "Simpan Acara",
+        "updateEvent": "Perbarui Acara",
+        "updating": "Memperbarui...",
+        "cancel": "Batal",
+        "publishImmediately": "Publikasikan Segera",
+        "pickDate": "Pilih tanggal",
+        "creating": "Membuat...",
+        "createEvent": "Buat Acara",
+        "cardTitle": "Buat Acara Baru",
+        "cardDescription": "Isi detail di bawah untuk membuat acara baru.",
+        "error": {
+            "requiredFields": "Judul, lokasi, dan tanggal acara wajib diisi.",
+            "failedToCreateEvent": "Gagal membuat acara. Silakan coba lagi.",
+            "failedToUpdateEvent": "Gagal memperbarui acara.",
+            "failedToDeleteEvent": "Gagal menghapus acara.",
+            "unexpected": "Terjadi kesalahan tak terduga."
+        },
+        "success": {
+            "eventCreated": "Acara berhasil dibuat.",
+            "eventUpdated": "Acara berhasil diperbarui.",
+            "eventDeleted": "Acara berhasil dihapus."
+        },
+        "categoryCommunity": "Komunitas",
+        "categoryCulture": "Budaya",
+        "categorySports": "Olahraga",
+        "categoryGovernment": "Pemerintah",
+        "categoryOther": "Lainnya",
+        "deleteAlert": {
+            "title": "Hapus Acara",
+            "description": "Apakah Anda yakin ingin menghapus acara \"{{eventTitle}}\"? Tindakan ini tidak dapat dibatalkan.",
+            "cancel": "Batal",
+            "confirm": "Hapus",
+            "delete": "Hapus"
+        },
+        "eventNotFound": "Acara tidak ditemukan."
+    }
+}
